@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../models/Message.dart';
@@ -30,9 +29,10 @@ class HomePage extends StatelessWidget {
                     itemCount: logic.messages.length,
                     itemBuilder: (context, index) {
                       return Directionality(
-                        textDirection: logic.messages[index].userName == logic.username
-                            ? TextDirection.rtl
-                            : TextDirection.ltr,
+                        textDirection:
+                            logic.messages[index].userName == logic.username
+                                ? TextDirection.rtl
+                                : TextDirection.ltr,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -58,10 +58,16 @@ class HomePage extends StatelessWidget {
                                 border:
                                     Border.all(color: Colors.amber, width: 1),
                                 borderRadius: BorderRadius.only(
-                                  topLeft:
-                                      Radius.circular(index.isEven ? 20 : 0),
-                                  topRight:
-                                      Radius.circular(index.isEven ? 0 : 20),
+                                  topLeft: Radius.circular(
+                                      logic.messages[index].userName ==
+                                              logic.username
+                                          ? 20
+                                          : 0),
+                                  topRight: Radius.circular(
+                                      logic.messages[index].userName ==
+                                              logic.username
+                                          ? 0
+                                          : 20),
                                   bottomLeft: const Radius.circular(20),
                                   bottomRight: const Radius.circular(20),
                                 ),
@@ -107,7 +113,8 @@ class HomePage extends StatelessWidget {
                     padding: const EdgeInsets.all(5.0),
                     child: IconButton(
                         onPressed: () {
-                          logic.sendMessage(logic.ip, int.parse(logic.port), logic.newMessage.text);
+                          logic.sendMessage(logic.ip, int.parse(logic.port),
+                              logic.newMessage.text);
                           logic.messages.add(Message(
                             userName: logic.username,
                             message: logic.newMessage.text,
