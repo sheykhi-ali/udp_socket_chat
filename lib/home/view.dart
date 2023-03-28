@@ -1,6 +1,7 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import '../models/Message.dart';
 import 'logic.dart';
 
 class HomePage extends StatelessWidget {
@@ -14,9 +15,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Welcome ${logic.username}'),
         actions: [
-          IconButton(onPressed: () {
-
-          }, icon: const Icon(Icons.more_vert))
+          IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert))
         ],
       ),
       body: Padding(
@@ -31,7 +30,7 @@ class HomePage extends StatelessWidget {
                     itemCount: logic.messages.length,
                     itemBuilder: (context, index) {
                       return Directionality(
-                        textDirection: index.isEven
+                        textDirection: logic.messages[index].userName == logic.username
                             ? TextDirection.rtl
                             : TextDirection.ltr,
                         child: Row(
@@ -46,7 +45,7 @@ class HomePage extends StatelessWidget {
                                 ),
                               ),
                               child: Text(
-                                logic.username as String,
+                                logic.messages[index].userName,
                               ),
                             ),
                             const SizedBox(
@@ -70,7 +69,7 @@ class HomePage extends StatelessWidget {
                               child: SizedBox(
                                 width: 150,
                                 child: Text(
-                                  logic.messages[index],
+                                  logic.messages[index].message,
                                   style: const TextStyle(fontSize: 20),
                                 ),
                               ),
@@ -108,7 +107,11 @@ class HomePage extends StatelessWidget {
                     padding: const EdgeInsets.all(5.0),
                     child: IconButton(
                         onPressed: () {
-                          logic.messages.add(logic.newMessage.text);
+                          logic.sendMessage(logic.ip, int.parse(logic.port), logic.newMessage.text);
+                          logic.messages.add(Message(
+                            userName: logic.username,
+                            message: logic.newMessage.text,
+                          ));
                           logic.newMessage.text = '';
                         },
                         icon: const Icon(
